@@ -1,7 +1,7 @@
 /* global expect, test, jest */
 /* eslint lodash/prefer-lodash-typecheck:0 lodash/prefer-lodash-method:0 */
 
-const Handler = require("../../src/index")
+const { LambdaHandler } = require("../../src")
 	, EventDef = require("../../src/eventdef");
 
 /**
@@ -97,7 +97,7 @@ class ParserMock {
 
 			test("parser.parse() is called", async () => {
 				const parser = require(`../../src/parsers/${this.name}`);
-				const handle = new Handler();
+				const handle = new LambdaHandler();
 				expect(handle.parsers).toContain(parser);
 				const idx = handle.parsers.indexOf(parser);
 
@@ -133,7 +133,7 @@ class ParserMock {
 			test("parser is selected by Lambda handler", async () => {
 				const eventDef = new EventDef(event);
 				const msg = await this.makeNew().parse(eventDef);
-				const h = await new Handler().processEvent(eventDef);
+				const h = await new LambdaHandler().processEvent(eventDef);
 				expect(h.parserName).toEqual(this.name);
 				expect(h.slackMessage).toEqual(expect.objectContaining(msg));
 			});
@@ -180,7 +180,7 @@ class ParserMock {
 
 			test("parser.parse() is called", async () => {
 				const parser = require(`../../src/parsers/${this.name}`);
-				const handle = new Handler();
+				const handle = new LambdaHandler();
 				expect(handle.parsers).toContain(parser);
 				const idx = handle.parsers.indexOf(parser);
 
@@ -203,7 +203,7 @@ class ParserMock {
 			test("parser is NOT selected by Lambda handler", async () => {
 				const eventDef = new EventDef(event);
 				const msg = await this.makeNew().parse(eventDef);
-				const h = await new Handler().processEvent(eventDef);
+				const h = await new LambdaHandler().processEvent(eventDef);
 				expect(h).not.toEqual(msg);
 				if (h) {
 					expect(h.name).not.toEqual(this.name);
@@ -245,7 +245,7 @@ class ParserMock {
 
 			test("parser.parse() is called", async () => {
 				const parser = require(`../../src/parsers/${this.name}`);
-				const handle = new Handler();
+				const handle = new LambdaHandler();
 				expect(handle.parsers).toContain(parser);
 				const idx = handle.parsers.indexOf(parser);
 
@@ -267,7 +267,7 @@ class ParserMock {
 
 			test("parser forces Lambda handler to return null", async () => {
 				const eventDef = new EventDef(event);
-				const h = await new Handler().processEvent(eventDef);
+				const h = await new LambdaHandler().processEvent(eventDef);
 				expect(h).toEqual(null);
 			});
 		});

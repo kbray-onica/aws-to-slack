@@ -121,7 +121,7 @@ class LambdaHandler {
 		}
 
 		try {
-			const handler = new LambdaHandler();
+			const handler = new this();
 			const waitingTasks = [];
 
 			// Handle SNS payloads with >1 messages differently!
@@ -176,4 +176,7 @@ class LambdaHandler {
 	}
 }
 
-module.exports = LambdaHandler;
+module.exports = {
+	LambdaHandler,
+	handler: LambdaHandler.handler.bind(LambdaHandler)
+};
